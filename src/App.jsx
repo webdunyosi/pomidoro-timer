@@ -13,7 +13,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   const activeCount = shapes.filter(Boolean).length;
-  const API_URL = 'http://localhost:5000/api/pomodoro'; // Backend manzili
+  const API_URL = 'https://pomodoro-backend-439d.onrender.com/api/pomodoro'; // Backend manzili
 
   // 1. Dastlabki yuklanishda Backenddan ma'lumotni olish
   useEffect(() => {
