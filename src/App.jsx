@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Toast from './components/Toast';
 import Timer from './components/Timer';
 import Shape from './components/Shape';
