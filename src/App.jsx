@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Toast from './components/Toast';
 import Timer from './components/Timer';
 import Shape from './components/Shape';
@@ -10,26 +10,42 @@ const App = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [timerTitle, setTimerTitle] = useState('Tanaffus');
   const [toast, setToast] = useState({ message: '', isBigBreak: false, visible: false });
+  const [loading, setLoading] = useState(true);
 
   const activeCount = shapes.filter(Boolean).length;
+  const API_URL = 'http://localhost:5000/api/pomodoro'; // Backend manzili
 
+  // 1. Dastlabki yuklanishda Backenddan ma'lumotni olish
+  useEffect(() => {
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        // Bazadan kelgan raqamga qarab shakllarni (shapes) belgilab chiqamiz
+        const count = data.completedCount || 0;
+        const initialShapes = [false, false, false, false].map((_, index) => index < count);
+        setShapes(initialShapes);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Backendga ulanishda xatolik:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // Taymer mantiqi
   useEffect(() => {
     let interval;
-    let timeout; // Taymer tugaganda ishlatish uchun
-
+    let timeout;
     if (timerActive && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
     } else if (timerActive && timeLeft <= 0) {
-      // Linter xato bermasligi uchun uni setTimeout ichiga olamiz
       timeout = setTimeout(() => {
         setTimerActive(false);
-        playBeep();
+        playBeep(); 
       }, 0);
     }
-
-    // Komponent o'chganda (unmount) tozalash
     return () => {
       clearInterval(interval);
       if (timeout) clearTimeout(timeout);
@@ -43,6 +59,22 @@ const App = () => {
     }, 5000);
   };
 
+  // 2. Backendni yangilash funksiyasi
+  const updateBackend = async (newCount) => {
+    try {
+      await fetch(API_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ completedCount: newCount })
+      });
+    } catch (err) {
+      console.error("Ma'lumotni saqlashda xatolik:", err);
+    }
+  };
+
+  // 3. Shaklni bosganda
   const toggleShape = (index) => {
     const newShapes = [...shapes];
     const isActive = newShapes[index];
@@ -52,7 +84,8 @@ const App = () => {
 
     const newActiveCount = newShapes.filter(Boolean).length;
 
-    // TODO: Backend'ga so'rov shu yerdan ketadi
+    // Backendga darhol yuboramiz
+    updateBackend(newActiveCount);
 
     if (!isActive) {
       if (newActiveCount < 4) {
@@ -71,11 +104,18 @@ const App = () => {
     }
   };
 
+  // 4. Barchasini tozalash bosilganda
   const resetShapes = () => {
     setTimerActive(false);
     setShapes([false, false, false, false]);
-    // TODO: Backend'da 0 ga tushirish
+    // Backendni 0 ga tushiramiz
+    updateBackend(0);
   };
+
+  // Ma'lumot kelguncha "Yuklanmoqda" yozuvi
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-white bg-slate-900">Yuklanmoqda...</div>;
+  }
 
   return (
     <div className="min-h-screen text-white flex items-center justify-center p-4">
