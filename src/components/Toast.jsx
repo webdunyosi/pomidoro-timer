@@ -1,13 +1,16 @@
 const Toast = ({ visible, message, isBigBreak }) => {
   return (
     <div 
-      className={`fixed top-8 left-1/2 transform -translate-x-1/2 transition-all duration-500 backdrop-blur-md px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] flex items-center gap-4 z-50 w-max max-w-[90%] border
-        ${visible ? 'translate-y-0 opacity-100' : 'translate-y-[-150%] opacity-0'}
-        ${isBigBreak ? 'bg-indigo-500/20 border-indigo-500/50' : 'bg-green-500/20 border-green-500/50'}
+      className={`fixed top-6 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] backdrop-blur-xl px-5 py-3.5 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.4)] flex items-center gap-3 z-50 w-max max-w-[calc(100vw-2rem)] border select-none
+        ${visible ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-16 opacity-0 scale-95 pointer-events-none'}
+        ${isBigBreak 
+          ? 'bg-indigo-950/70 border-indigo-500/40 text-indigo-200 shadow-[0_0_20px_rgba(99,102,241,0.15)]' 
+          : 'bg-emerald-950/70 border-emerald-500/40 text-emerald-200 shadow-[0_0_20px_rgba(16,185,129,0.15)]'
+        }
       `}
     >
-      <i className={`${isBigBreak ? 'fas fa-award text-indigo-400 text-2xl animate-bounce' : 'fas fa-star text-green-400 text-xl animate-pulse'}`}></i>
-      <span className="font-medium text-sm sm:text-base tracking-wide">{message}</span>
+      <i className={`text-lg sm:text-xl shrink-0 ${isBigBreak ? 'fas fa-award text-indigo-400 animate-bounce' : 'fas fa-star text-emerald-400 animate-pulse'}`}></i>
+      <span className="font-semibold text-xs sm:text-sm tracking-wide leading-snug">{message}</span>
     </div>
   );
 };

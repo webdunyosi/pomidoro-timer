@@ -122,13 +122,13 @@ const App = () => {
       
       <Toast visible={toast.visible} message={toast.message} isBigBreak={toast.isBigBreak} />
 
-      <main className="glass-panel w-full max-w-md rounded-3xl p-10 shadow-2xl relative overflow-hidden flex flex-col items-center">
+      <main className="glass-panel w-full max-w-[420px] rounded-[2rem] p-[clamp(1.5rem,6vw,2.5rem)] shadow-2xl relative overflow-hidden flex flex-col items-center transition-all duration-500 hover:border-red-500/20">
         
-        <div className="absolute -top-20 -left-20 w-64 h-64 bg-red-500 rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite]"></div>
-        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-red-400 rounded-full mix-blend-multiply filter blur-[80px] opacity-20 animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite]" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute -top-20 -left-20 w-64 h-64 bg-red-500 rounded-full mix-blend-multiply filter blur-[80px] opacity-15 animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite]"></div>
+        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-[80px] opacity-15 animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite]" style={{ animationDelay: '1.5s' }}></div>
 
-        <h1 className="text-3xl font-bold mb-3 tracking-wide text-gray-100 z-10 text-center">Pomodoro</h1>
-        <p className="text-gray-400 font-medium mb-12 z-10 text-center text-sm">Vaqt tugagach, bosqichni belgilang</p>
+        <h1 className="text-[clamp(1.75rem,7vw,2.25rem)] font-extrabold mb-1 tracking-wide bg-gradient-to-r from-gray-100 via-white to-gray-300 bg-clip-text text-transparent z-10 text-center drop-shadow-sm">Pomodoro</h1>
+        <p className="text-gray-400 font-medium mb-[clamp(1.5rem,5vw,2.5rem)] z-10 text-center text-[clamp(0.8rem,3.5vw,0.875rem)]">Vaqt tugagach, bosqichni belgilang</p>
 
         <Timer 
           active={timerActive} 
@@ -137,7 +137,7 @@ const App = () => {
           isAllCompleted={activeCount === 4} 
         />
 
-        <div className="flex items-center justify-center gap-4 sm:gap-6 mb-12 z-10 w-full">
+        <div className="flex items-center justify-center gap-[clamp(0.5rem,3.5vw,1.25rem)] mb-[clamp(1.75rem,6vw,2.75rem)] z-10 w-full">
           {shapes.map((isActive, index) => (
             <Shape 
               key={index} 
@@ -149,13 +149,13 @@ const App = () => {
         </div>
 
         <div className="z-10 w-full flex flex-col items-center">
-          <p className={`font-bold mb-6 tracking-widest uppercase text-sm transition-colors duration-300 ${activeCount === 4 ? 'text-green-400' : 'text-red-400'}`}>
+          <p className={`font-bold mb-5 tracking-widest uppercase text-xs sm:text-sm transition-colors duration-300 ${activeCount === 4 ? 'text-indigo-400' : 'text-red-400'}`}>
             {activeCount === 4 ? "Barchasi bajarildi 🎉" : `Bajarilgan: ${activeCount} / 4`}
           </p>
           
           <button 
             onClick={resetShapes} 
-            className="px-6 py-3 rounded-xl bg-slate-700/50 hover:bg-slate-600 text-gray-300 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none active:scale-95 flex items-center gap-2 text-sm font-medium"
+            className="px-5 py-3 rounded-xl bg-slate-800/80 hover:bg-red-500/10 border border-slate-700/80 hover:border-red-500/30 text-gray-300 hover:text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg focus:outline-none active:scale-95 flex items-center gap-2 text-xs sm:text-sm font-medium cursor-pointer"
           >
             <i className="fas fa-redo-alt"></i> Barchasini tozalash
           </button>
